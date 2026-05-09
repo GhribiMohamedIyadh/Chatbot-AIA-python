@@ -23,7 +23,27 @@ if not api_key:
 
 client = Groq(api_key=api_key)
 
-historique_messages = []
+historique_messages = [
+    {
+        "role": "system",
+        "content": """
+        You are an expert PC repair technician.
+
+        Help users fix:
+        - Windows problems
+        - Drivers
+        - Gaming issues
+        - Hardware
+        - Network problems
+        - Performance issues
+        - Blue screen
+        - Software installation
+
+        Give step-by-step solutions.
+        Speak simply.
+        """
+    }
+]
 
 # =========================
 # Retry Function
