@@ -1,3 +1,4 @@
+from flask import Flask, render_template, request
 import time
 import random
 from groq import Groq
@@ -5,22 +6,29 @@ from groq import APIError, RateLimitError
 from dotenv import load_dotenv
 import os
 
-# تحميل API KEY من .env
+# =========================
+# Flask app
+# =========================
+app = Flask(__name__)
+
+# =========================
+# Load API KEY
+# =========================
 load_dotenv()
 
 api_key = os.getenv("GROQ_API_KEY")
 
 if not api_key:
-    raise ValueError("GROQ_API_KEY not found in .env file")
+    raise ValueError("GROQ_API_KEY not found")
 
-# إنشاء client
 client = Groq(api_key=api_key)
 
+historique_messages = []
 
 # =========================
-# 🔁 Function with Retry
+# Retry Function
 # =========================
-def appel_api_avec_retry(prompt, max_retries=3):
+def appel_api_avec_retry(max_retries=3):
 
     for tentative in range(max_retries):
         try:
@@ -28,67 +36,57 @@ def appel_api_avec_retry(prompt, max_retries=3):
                 model="llama-3.1-8b-instant",
                 messages=historique_messages,
                 temperature=0.7,
-                max_tokens=300,
-                stream=False
+                max_tokens=300
             )
 
             return response.choices[0].message.content
 
-        # =========================
-        # 🚨 Rate Limit Error
-        # =========================
         except RateLimitError:
+
             if tentative < max_retries - 1:
-                wait_time = 2 ** tentative  # backoff exponentiel
-                wait_time += random.uniform(0, 0.5)  # jitter صغير
 
-                print(f"⚠️ Rate limit reached, waiting {wait_time:.2f}s...")
+                wait_time = 2 ** tentative
+                wait_time += random.uniform(0, 0.5)
+
                 time.sleep(wait_time)
+
             else:
-                raise Exception("❌ Too many requests, try again later")
+                return "Too many requests"
 
-        # =========================
-        # ❌ API Error
-        # =========================
         except APIError as e:
-            print("❌ API Error:", e)
-            raise
+            return f"API Error: {e}"
 
-        # =========================
-        # ❌ Other errors
-        # =========================
         except Exception as e:
-            print("❌ Unexpected error:", e)
-            raise
-
-def ajouter_message(role, content):
-    historique_messages.append({
-        "role": role,
-        "content": content
-    })
-
-def afficher_historique():
-    for msg in historique_messages:
-        print(f"{msg['role']}: {msg['content']}")
+            return f"Error: {e}"
 
 # =========================
-# ▶️ Chat loop
+# Route principale
 # =========================
-historique_messages = []
+@app.route("/", methods=["GET", "POST"])
+def index():
+
+    reply = ""
+
+    if request.method == "POST":
+
+        user_input = request.form["message"]
+
+        historique_messages.append({
+            "role": "user",
+            "content": user_input
+        })
+
+        reply = appel_api_avec_retry()
+
+        historique_messages.append({
+            "role": "assistant",
+            "content": reply
+        })
+
+    return render_template("index.html", reply=reply)
+
+# =========================
+# Run app
+# =========================
 if __name__ == "__main__":
-    print("🤖 Chatbot démarré !")
-    print("Tapez 'quitter' pour sortir\n")
-
-    while True:
-        user_input = input("👤 You: ")
-        user_input = user_input.strip()
-
-        if user_input.lower() == "exit" or user_input.lower() == "quitter" or user_input.lower() == "bye":
-            print("Au revoir ! 👋")
-            break
-
-        ajouter_message("user", user_input)
-        reply = appel_api_avec_retry(user_input, max_retries=3)
-        ajouter_message("assistant", reply)
-
-        print("🤖 AI:", reply)
+    app.run(debug=True)
