@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TechBot — À propos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='20' y='22' width='60' height='52' rx='18' fill='%231a2d5a'/><circle cx='37' cy='45' r='9' fill='%2338bdf8'/><circle cx='63' cy='45' r='9' fill='%2338bdf8'/><circle cx='37' cy='45' r='4' fill='%230d1b3e'/><circle cx='63' cy='45' r='4' fill='%230d1b3e'/><path d='M38 60 Q50 70 62 60' stroke='%2338bdf8' stroke-width='2.5' fill='none' stroke-linecap='round'/></svg>"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #07112b;
+      --bg2:       #0d1e40;
+      --card:      #112050;
+      --border:    #1e3a6e;
+      --accent:    #38bdf8;
+      --accent2:   #0ea5e9;
+      --text:      #e2eaf6;
+      --muted:     #7a9cc0;
+      --devops:    #f59e0b;
+      --backend:   #10b981;
+      --frontend:  #a78bfa;
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── background mesh ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 20%, rgba(56,189,248,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(14,165,233,.06) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      height: 62px;
+      background: rgba(7,17,43,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -.01em;
+    }
+    .nav-robot { width: 30px; height: 30px; }
+
+    .nav-links { list-style: none; display: flex; gap: 2rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── PAGE CONTENT ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    /* ── HERO ── */
+    .about-hero {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    .about-hero .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+      color: var(--accent);
+      background: rgba(56,189,248,.1);
+      border: 1px solid rgba(56,189,248,.25);
+      border-radius: 20px;
+      padding: .35rem 1rem;
+      margin-bottom: 1.2rem;
+      letter-spacing: .08em;
+    }
+    .about-hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .about-hero h1 span { color: var(--accent); }
+    .about-hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── MISSION CARD ── */
+    .mission-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2rem 2.5rem;
+      margin-bottom: 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .mission-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      font-size: 8rem;
+      color: var(--accent);
+      opacity: .07;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    .mission-card p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+    .mission-card .mission-sub {
+      margin-top: 1rem;
+      font-size: .85rem;
+      color: var(--muted);
+      font-style: normal;
+    }
+
+    /* ── TEAM GRID ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .member-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .member-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 20px 20px 0 0;
+    }
+    .member-card.devops::before  { background: var(--devops); }
+    .member-card.backend::before { background: var(--backend); }
+    .member-card.frontend::before{ background: var(--frontend); }
+
+    .member-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,.4);
+    }
+    .member-card.devops:hover  { border-color: var(--devops); }
+    .member-card.backend:hover { border-color: var(--backend); }
+    .member-card.frontend:hover{ border-color: var(--frontend); }
+
+    /* avatar */
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      position: relative;
+    }
+    .avatar.devops-av  { background: linear-gradient(135deg,#b45309,#f59e0b); }
+    .avatar.backend-av { background: linear-gradient(135deg,#065f46,#10b981); }
+    .avatar.frontend-av{ background: linear-gradient(135deg,#5b21b6,#a78bfa); }
+
+    /* pulse ring */
+    .avatar::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 2px solid currentColor;
+      opacity: .3;
+      animation: pulse-ring 2.5s ease-in-out infinite;
+    }
+    .devops-av::after  { color: var(--devops); }
+    .backend-av::after { color: var(--backend); }
+    .frontend-av::after{ color: var(--frontend); }
+
+    @keyframes pulse-ring {
+      0%,100% { transform: scale(1);   opacity: .3; }
+      50%      { transform: scale(1.1); opacity: .1; }
+    }
+
+    .member-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+    }
+
+    .member-role {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .06em;
+      padding: .25rem .75rem;
+      border-radius: 20px;
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+    .devops-role  { background: rgba(245,158,11,.15);  color: var(--devops);  border: 1px solid rgba(245,158,11,.3); }
+    .backend-role { background: rgba(16,185,129,.15);  color: var(--backend); border: 1px solid rgba(16,185,129,.3); }
+    .frontend-role{ background: rgba(167,139,250,.15); color: var(--frontend);border: 1px solid rgba(167,139,250,.3); }
+
+    .member-links {
+      display: flex;
+      justify-content: center;
+      gap: .8rem;
+      margin-top: .5rem;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem 1rem;
+      border-radius: 10px;
+      font-size: .78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .link-btn:hover { transform: scale(1.05); }
+    .link-btn.github {
+      background: rgba(255,255,255,.07);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .link-btn.github:hover { background: rgba(255,255,255,.14); }
+    .link-btn.linkedin {
+      background: rgba(10,102,194,.2);
+      color: #60a5fa;
+      border: 1px solid rgba(10,102,194,.4);
+    }
+    .link-btn.linkedin:hover { background: rgba(10,102,194,.35); }
+
+    /* ── TECH STACK ── */
+    .tech-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      margin-bottom: 4rem;
+      justify-content: center;
+    }
+    .tech-badge {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: .55rem 1.1rem;
+      font-size: .85rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text);
+      transition: border-color .2s, transform .2s;
+    }
+    .tech-badge:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .tech-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── FOOTER ── */
+    .about-footer {
+      text-align: center;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .about-footer a { color: var(--accent); text-decoration: none; }
+    .about-footer a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      nav { padding: 0 1.2rem; }
+      .page { padding: 2.5rem 1.2rem 4rem; }
+      .mission-card { padding: 1.5rem; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ── -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <svg class="nav-robot" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <line x1="50" y1="18" x2="62" y2="8" stroke="#38bdf8" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="64" cy="6" r="4" fill="#38bdf8"/>
+      <rect x="10" y="34" width="10" height="18" rx="4" fill="#1a2d5a"/>
+      <rect x="80" y="34" width="10" height="18" rx="4" fill="#1a2d5a"/>
+      <rect x="20" y="22" width="60" height="52" rx="18" fill="#1a2d5a"/>
+      <circle cx="37" cy="45" r="9" fill="#38bdf8" opacity=".9"/>
+      <circle cx="63" cy="45" r="9" fill="#38bdf8" opacity=".9"/>
+      <circle cx="37" cy="45" r="4" fill="#0d1b3e"/>
+      <circle cx="63" cy="45" r="4" fill="#0d1b3e"/>
+      <path d="M38 60 Q50 70 62 60" stroke="#38bdf8" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    </svg>
+    TechBot
+  </a>
+  <ul class="nav-links">
+    <li><a href="/">Accueil</a></li>
+    <li><a href="/" onclick="showChat(event)">Chat</a></li>
+    <li><a href="/about" class="active">À propos</a></li>
+  </ul>
+</nav>
+
+<!-- ── PAGE ── -->
+<div class="page">
+
+  <!-- Hero -->
+  <div class="about-hero">
+    <div class="tag">// À PROPOS</div>
+    <h1>L'équipe derrière<br/><span>TechBot</span></h1>
+    <p>Un projet étudiant né d'une envie simple : rendre le support informatique accessible à tous, sans attente, sans jargon.</p>
+  </div>
+
+  <!-- Mission -->
+  <div class="section-title">Notre mission</div>
+  <div class="mission-card">
+    <p>Rendre le support technique accessible à tous — rapidement, intelligemment, gratuitement. TechBot guide chaque utilisateur vers la solution, qu'il soit expert ou débutant.</p>
+    <div class="mission-sub">⚡ Propulsé par l'IA · 🛠 Spécialisé PC · 🇹🇳 Projet étudiant tunisien</div>
+  </div>
+
+  <!-- Team -->
+  <div class="section-title">L'équipe</div>
+  <div class="team-grid">
+
+    <!-- Membre 1 -->
+    <div class="member-card devops">
+      <div class="avatar devops-av">GI</div>
+      <div class="member-name">Ghribi Mohamed Iyadh</div>
+      <div class="member-role devops-role">⚙️ DevOps</div>
+      <div class="member-links">
+        <a class="link-btn github" href="https://github.com/GhribiMohamedIyadh" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+          GitHub
+        </a>
+        <a class="link-btn linkedin" href="https://www.linkedin.com/in/mohamed-iyadh-ghribi-3a29773b0/" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.37 4.25 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <!-- Membre 2 -->
+    <div class="member-card backend">
+      <div class="avatar backend-av">SA</div>
+      <div class="member-name">Sfar Adem</div>
+      <div class="member-role backend-role">🖥️ Backend</div>
+      <div class="member-links">
+        <a class="link-btn github" href="https://github.com/sfiroi" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+          GitHub
+        </a>
+        <a class="link-btn linkedin" href="https://www.linkedin.com/in/adem-sfar-5b0772397/" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.37 4.25 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+    <!-- Membre 3 -->
+    <div class="member-card frontend">
+      <div class="avatar frontend-av">ZA</div>
+      <div class="member-name">Zaghouani Asma</div>
+      <div class="member-role frontend-role">🎨 Frontend</div>
+      <div class="member-links">
+        <a class="link-btn github" href="https://github.com/zaghouaniasma" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.3.9.1-.7.4-1.2.7-1.5-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>
+          GitHub
+        </a>
+        <a class="link-btn linkedin" href="https://www.linkedin.com/in/asma-zaghouani-38a319407/" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.25 2.37 4.25 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Tech Stack -->
+  <div class="section-title" >Technologies utilisées</div>
+  <div class="tech-grid">
+    <div class="tech-badge"><span class="tech-dot" style="background:#3776ab"></span>Python</div>
+    <div class="tech-badge"><span class="tech-dot" style="background:#e34c26"></span>Flask</div>
+    <div class="tech-badge"><span class="tech-dot" style="background:#f7df1e"></span>JavaScript</div>
+    <div class="tech-badge"><span class="tech-dot" style="background:#e44d26"></span>HTML5</div>
+    <div class="tech-badge"><span class="tech-dot" style="background:#264de4"></span>CSS3</div>
+    <div class="tech-badge"><span class="tech-dot" style="background:#f05032"></span>Git / GitHub</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="about-footer">
+    <p>© 2025 TechBot · Projet étudiant 🇹🇳 · <a href="https://github.com/GhribiMohamedIyadh" target="_blank">GitHub</a></p>
+  </div>
+
+</div>
+</body>
+</html>
