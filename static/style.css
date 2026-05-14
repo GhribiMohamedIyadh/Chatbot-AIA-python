@@ -234,6 +234,7 @@
       border-radius: 18px;
       font-size: 0.9rem;
       line-height: 1.6;
+      white-space:pre-wrap;
     }
 
     .msg.bot .msg-bubble {

@@ -165,7 +165,7 @@
 
     const bubble = document.createElement('div');
     bubble.className = 'msg-bubble';
-    bubble.textContent = text;
+    bubble.innerHTML = text.replace(/\n/g, "<br>");
 
     div.appendChild(avatar);
     div.appendChild(bubble);

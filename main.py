@@ -56,7 +56,7 @@ def appel_api_avec_retry(max_retries=3):
                 model="llama-3.1-8b-instant",
                 messages=historique_messages,
                 temperature=0.7,
-                max_tokens=300
+                max_tokens=1500
             )
 
             return response.choices[0].message.content
