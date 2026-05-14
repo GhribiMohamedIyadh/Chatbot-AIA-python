@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify 
 import time
 import random
 from groq import Groq
@@ -82,29 +82,32 @@ def appel_api_avec_retry(max_retries=3):
 # =========================
 # Route principale
 # =========================
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
+    return render_template("index.html")
 
-    reply = ""
 
-    if request.method == "POST":
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.get_json()
+    user_input = data.get("message", "").strip()
 
-        user_input = request.form["message"]
+    if not user_input:
+        return jsonify({"reply": "Veuillez entrer un message."})
 
-        historique_messages.append({
-            "role": "user",
-            "content": user_input
-        })
+    historique_messages.append({
+        "role": "user",
+        "content": user_input
+    })
 
-        reply = appel_api_avec_retry()
+    reply = appel_api_avec_retry()
 
-        historique_messages.append({
-            "role": "assistant",
-            "content": reply
-        })
+    historique_messages.append({
+        "role": "assistant",
+        "content": reply
+    })
 
-    return render_template("index.html", reply=reply)
-
+    return jsonify({"reply": reply})
 # =========================
 # Run app
 # =========================

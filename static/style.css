@@ -204,6 +204,7 @@
       gap: 18px;
       scrollbar-width: thin;
       scrollbar-color: var(--border) transparent;
+      white-space: pre-wrap;
     }
 
     .msg {
